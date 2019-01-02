@@ -1,23 +1,23 @@
 package fr.wildcodeschool.queteSpringRest.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import fr.wildcodeschool.queteSpringRest.dao.BookRepository;
+import fr.wildcodeschool.queteSpringRest.dao.ReaderRepository;
 import fr.wildcodeschool.queteSpringRest.model.Book;
 import fr.wildcodeschool.queteSpringRest.model.JsonPojoSearch;
+import fr.wildcodeschool.queteSpringRest.model.Reader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class Controller {
     @Autowired
     private BookRepository bookRepository;
+    @Autowired
+    private ReaderRepository readerRepository;
 
     @GetMapping("/")
     public String test() {
@@ -34,7 +34,7 @@ public class Controller {
         return bookRepository.findById(id).get();
     }
 
-    @GetMapping ("book/search")
+    @GetMapping("book/search")
     public List<Book> searchBook(@RequestBody String jsonObject) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         JsonPojoSearch object = mapper.readValue(jsonObject, JsonPojoSearch.class);
@@ -68,5 +68,9 @@ public class Controller {
         return bookRepository.save(majBook);
     }
 
-
+    @GetMapping("/getTitle/{id}")
+    public String getTitle(@PathVariable Long id){
+        Reader reader =readerRepository.findById(id).get();
+        return "le titre préféré pour "+reader.getName() +  " est : "  +reader.getBook().getTitle();
+    }
 }

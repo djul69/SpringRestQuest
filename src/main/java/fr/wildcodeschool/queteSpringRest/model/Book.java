@@ -1,25 +1,23 @@
 package fr.wildcodeschool.queteSpringRest.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_book;
 
     private String title;
     private String author;
     private String description;
 
+
     public Book() {
     }
 
-    public Long getId() {
-        return id;
+    public Long getId_book() {
+        return id_book;
     }
 
     public String getTitle() {
